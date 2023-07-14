@@ -1,5 +1,3 @@
-"use client";
-
 import CandleChart from "./CandleChart";
 
 export default function CandleChartContainer() {

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthContext from "@/context/AuthContext";
 import Header from "@/components/header/Header";
+import QueryProvider from "@/service/client/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,9 @@ export default function RootLayout({
 						<Header />
 					</AuthContext>
 					{/* <ReduxProvider> */}
-					<main>{children}</main>
+					<QueryProvider>
+						<main>{children}</main>
+					</QueryProvider>
 					{/* </ReduxProvider> */}
 				</div>
 			</body>
