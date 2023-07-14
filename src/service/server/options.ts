@@ -3,10 +3,14 @@ import { ApexOptions } from "apexcharts";
 export const chartOptions: ApexOptions = {
 	chart: {
 		width: "100%",
-		type: "candlestick",
 		background: "#fff",
 		animations: {
 			enabled: false,
+		},
+		zoom: {
+			enabled: true,
+			type: "xy",
+			autoScaleYaxis: true,
 		},
 	},
 	xaxis: {
@@ -15,7 +19,14 @@ export const chartOptions: ApexOptions = {
 		tickAmount: 4,
 	},
 	yaxis: {
-		opposite: true,
+		show: false,
+		tickAmount: 5,
+		// opposite: true,
+		// labels: {
+		// 	formatter: (value) => {
+		// 		return value.toFixed(0);
+		// 	},
+		// },
 	},
 	legend: {
 		fontSize: "14px",
