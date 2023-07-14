@@ -16,6 +16,8 @@ model User {
   password        String?
   name            String?
   email           String        @unique
+	apiKey					String?				@unique
+	apiSecret				String?				@unique
 	balance 				Float					@default(100)
   totalStar       Int           @default(0)
   createdAt       DateTime      @default(now())

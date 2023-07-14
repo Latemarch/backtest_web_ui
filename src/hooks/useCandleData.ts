@@ -2,17 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 type Props = {
+	id?: number;
 	gte?: number;
 	lte?: number;
 };
 
-export default function useCandleData({ gte, lte }: Props) {
-	const candleQuery = useQuery(["candleData"], () => getCandle(gte, lte));
+export default function useCandleData({ id, gte, lte }: Props) {
+	const candleQuery = useQuery(["candleData"], () => getCandles(gte, lte));
 
-	return { candleQuery };
+	const getCandle = useQuery(["candleData", id], () => getCandleById(id));
+	return { candleQuery, getCandle };
 }
 
-const getCandle = async (
+const getCandles = async (
 	gte: number | undefined,
 	lte: number | undefined
 ): Promise<historyKline[]> => {
@@ -24,4 +26,9 @@ const getCandle = async (
 			},
 		})
 		.then((res) => res.data);
+};
+
+const getCandleById = async (id: number | undefined): Promise<historyKline> => {
+	if (!id) throw new Error("id is undefined");
+	return axios.get(`/api/data/${id}`).then((res) => res.data);
 };

@@ -7,8 +7,7 @@ export default function CandleChart() {
 	const options = chartOptions;
 	const {
 		candleQuery: { data: candles },
-	} = useCandleData({ lte: 2 });
-
+	} = useCandleData({ lte: 2, id: 1 });
 	if (!candles) return;
 
 	const candleArr: historyKlineData = candles.reduce(
@@ -26,7 +25,7 @@ export default function CandleChart() {
 	}));
 
 	return (
-		<div className="bg-DarkChart p-4 px-2 my-2 rounded-xl">
+		<div className="bg-white p-4 px-2 my-2 rounded-xl">
 			<Chart
 				options={{
 					...options, //
