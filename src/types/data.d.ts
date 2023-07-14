@@ -37,3 +37,13 @@ type Trades = {
 		BT: boolean;
 	}>;
 };
+
+type historyKlineData = number[][];
+type historyKline = {
+	id: number;
+	createdAt: Date;
+	name: string;
+	data: historyKlineData;
+	timeOpen: string;
+	timeClose: string;
+};

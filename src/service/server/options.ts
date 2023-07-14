@@ -4,23 +4,20 @@ export const chartOptions: ApexOptions = {
 	chart: {
 		width: "100%",
 		type: "candlestick",
+		background: "#fff",
 		animations: {
 			enabled: false,
 		},
 	},
-	theme: {
-		mode: "dark",
-		palette: "palette10",
-		monochrome: {
-			enabled: true,
-			color: "#255aee",
-			shadeTo: "light",
-			shadeIntensity: 0.65,
-		},
-	},
 	xaxis: {
 		type: "numeric",
-		range: 40,
+		// range: 40,
 		tickAmount: 4,
+	},
+	yaxis: {
+		opposite: true,
+	},
+	legend: {
+		fontSize: "14px",
 	},
 };

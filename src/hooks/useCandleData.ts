@@ -12,7 +12,10 @@ export default function useCandleData({ gte, lte }: Props) {
 	return { candleQuery };
 }
 
-const getCandle = async (gte: number | undefined, lte: number | undefined) => {
+const getCandle = async (
+	gte: number | undefined,
+	lte: number | undefined
+): Promise<historyKline[]> => {
 	return axios
 		.get("/api/data", {
 			params: {
