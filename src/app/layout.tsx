@@ -1,4 +1,3 @@
-import ReduxProvider from "@/redux/ReduxProvider";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -25,12 +24,12 @@ export default function RootLayout({
 				<div className="relative max-w-4xl mx-auto ">
 					<AuthContext>
 						<Header />
+						{/* <ReduxProvider> */}
+						<QueryProvider>
+							<main>{children}</main>
+						</QueryProvider>
+						{/* </ReduxProvider> */}
 					</AuthContext>
-					{/* <ReduxProvider> */}
-					<QueryProvider>
-						<main>{children}</main>
-					</QueryProvider>
-					{/* </ReduxProvider> */}
 				</div>
 			</body>
 		</html>
