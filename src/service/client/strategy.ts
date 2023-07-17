@@ -2,9 +2,21 @@ type Props = {
 	candles: historyKlineData;
 	ma1: number;
 	ma2: number;
+	macd: number;
+	profitCount: number;
+	profitCut: number;
+	lossCut: number;
 };
 
-export function backTestBot({ candles, ma1, ma2 }: Props) {
+export function backTestBot({
+	candles,
+	ma1,
+	ma2,
+	macd,
+	profitCount,
+	profitCut,
+	lossCut,
+}: Props) {
 	const result: Indicators = {
 		ma1: [],
 		ma2: [],
@@ -34,7 +46,7 @@ export function backTestBot({ candles, ma1, ma2 }: Props) {
 		});
 
 		if (k < ma2) continue;
-		result.macdSig.push({ x, y: macdSig(result.macd, k, 9) });
+		result.macdSig.push({ x, y: macdSig(result.macd, k, macd) });
 		result.macdOsc.push({
 			x,
 			y:
@@ -50,7 +62,7 @@ export function backTestBot({ candles, ma1, ma2 }: Props) {
 			let entryPrice = result.long[result.long.length - 1].y;
 			let price = candles[i][4];
 			let profit = 1 - entryPrice / price;
-			if (profit > 0.01 || profit < -0.01 || count > 9) {
+			if (profit > profitCut || profit < lossCut || count > profitCount) {
 				console.log(profit, count);
 				result.longSell.push({ x, y: candles[i][2] + 100 });
 				wallet.longPosition = false;

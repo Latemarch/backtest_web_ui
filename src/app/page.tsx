@@ -1,13 +1,14 @@
 import FramerWrapper from "./FramerWrapper";
-import PriceTracker from "../components/PriceTracker";
-import CandleChart from "@/components/CandleChart";
+import TradeHistory from "@/components/TradeHistory";
+import ResultChartContainer from "@/components/ResultChartContainer";
 
 export default function Home() {
 	return (
 		<FramerWrapper>
 			main
 			{/* <PriceTracker /> */}
-			<CandleChart />
+			<ResultChartContainer />
+			<TradeHistory />
 		</FramerWrapper>
 	);
 }

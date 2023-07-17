@@ -1,3 +1,9 @@
+import MacdInput from "@/components/MacdInput";
+
 export default function page() {
-	return <div>page</div>;
+	return (
+		<div>
+			<MacdInput />
+		</div>
+	);
 }

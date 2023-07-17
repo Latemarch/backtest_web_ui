@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import AuthContext from "@/context/AuthContext";
 import Header from "@/components/header/Header";
 import QueryProvider from "@/service/client/QueryProvider";
+import ReduxProvider from "@/redux/ReduxProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +25,11 @@ export default function RootLayout({
 				<div className="relative max-w-4xl mx-auto ">
 					<AuthContext>
 						<Header />
-						{/* <ReduxProvider> */}
-						<QueryProvider>
-							<main>{children}</main>
-						</QueryProvider>
-						{/* </ReduxProvider> */}
+						<ReduxProvider>
+							<QueryProvider>
+								<main>{children}</main>
+							</QueryProvider>
+						</ReduxProvider>
 					</AuthContext>
 				</div>
 			</body>

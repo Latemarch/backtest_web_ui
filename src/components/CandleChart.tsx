@@ -28,7 +28,15 @@ export default function CandleChart() {
 				.map((num) => Number(num)),
 		],
 	}));
-	const indicators = backTestBot({ candles, ma1: 12, ma2: 26 });
+	const indicators = backTestBot({
+		candles,
+		ma1: 12,
+		ma2: 26,
+		macd: 9,
+		profitCount: 9,
+		profitCut: 0.01,
+		lossCut: 0.08,
+	});
 	console.log(indicators.long);
 
 	return (
