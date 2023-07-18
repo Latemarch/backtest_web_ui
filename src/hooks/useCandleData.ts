@@ -1,3 +1,4 @@
+import { getCandles } from "@/service/client/fetchFtns";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -13,20 +14,6 @@ export default function useCandleData({ id, gte, lte }: Props) {
 	const getCandle = useQuery(["candleData", id], () => getCandleById(id));
 	return { candleQuery, getCandle };
 }
-
-const getCandles = async (
-	gte: number | undefined,
-	lte: number | undefined
-): Promise<historyKline[]> => {
-	return axios
-		.get("/api/datas", {
-			params: {
-				gte,
-				lte,
-			},
-		})
-		.then((res) => res.data);
-};
 
 const getCandleById = async (id: number | undefined): Promise<historyKline> => {
 	if (!id) throw new Error("id is undefined");

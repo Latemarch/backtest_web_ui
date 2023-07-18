@@ -1,6 +1,7 @@
 "use client";
 import useCandleData from "@/hooks/useCandleData";
 import { backTestBot } from "@/service/client/strategy";
+import { combineCandles, mapCandleData } from "@/service/client/utils";
 import { chartBar, chartOptions } from "@/service/server/options";
 import { useState } from "react";
 import Chart from "react-apexcharts";
@@ -11,23 +12,12 @@ export default function CandleChart() {
 	const optionsCandle = chartOptions;
 	const optionsBar = chartBar;
 	const {
-		candleQuery: { data: candleObj },
+		candleQuery: { data: candleArr },
 	} = useCandleData({ lte: 1, id: 1 });
-	if (!candleObj) return;
+	if (!candleArr) return;
 
-	const candles: historyKlineData = candleObj.reduce(
-		(acc: historyKlineData, cur: historyKline) => [...acc, ...cur.data],
-		[]
-	);
+	const candles = combineCandles(candleArr);
 
-	const data = candles.map((candle, idx) => ({
-		x: idx,
-		y: [
-			...candle
-				.slice(1, 5) //
-				.map((num) => Number(num)),
-		],
-	}));
 	const indicators = backTestBot({
 		candles,
 		ma1: 12,
@@ -37,7 +27,8 @@ export default function CandleChart() {
 		profitCut: 0.01,
 		lossCut: 0.08,
 	});
-	console.log(indicators.long);
+
+	const data = mapCandleData(candles);
 
 	return (
 		<div className="bg-white p-4 px-2 my-2 rounded-xl">

@@ -17,7 +17,7 @@ export function backTestBot({
 	profitCut,
 	lossCut,
 }: Props) {
-	const result: Indicators = {
+	const result: MACDResult = {
 		ma1: [],
 		ma2: [],
 		macd: [],
@@ -27,6 +27,7 @@ export function backTestBot({
 		longSell: [],
 		short: [],
 		shortSell: [],
+		dailyReturn: [],
 	};
 	const wallet = {
 		long: false,
@@ -35,8 +36,21 @@ export function backTestBot({
 		shortPosition: false,
 	};
 	let count = 0;
+	let openPrice = candles[0][4];
+	let dailyProfit = 0;
 	for (let i = ma2, k = 0; i < candles.length; i++, k++) {
 		//indicators
+		if (i % 1440 === 0) {
+			const dailyReturn = {
+				id: Math.floor(i / 1440),
+				variation: (openPrice - candles[i][4]) / candles[i][4],
+				dailyProfit,
+			};
+			result.dailyReturn.push(dailyReturn);
+			console.log(dailyReturn);
+			openPrice = candles[i][4];
+			dailyProfit = 0;
+		}
 		const x = i;
 		result.ma1.push({ x, y: ma(candles, i, ma1) });
 		result.ma2.push({ x, y: ma(candles, i, ma2) });
@@ -63,7 +77,6 @@ export function backTestBot({
 			let price = candles[i][4];
 			let profit = 1 - entryPrice / price;
 			if (profit > profitCut || profit < lossCut || count > profitCount) {
-				console.log(profit, count);
 				result.longSell.push({ x, y: candles[i][2] + 100 });
 				wallet.longPosition = false;
 				count = 0;
@@ -82,7 +95,7 @@ export function backTestBot({
 	return result;
 }
 
-function tradeWithMacd(macd: { x: number; y: number }[]) {
+function tradeWithMacd(macd: { [key: string]: number }[]) {
 	const arr = macd.slice(-3).map((obj) => obj.y);
 	// if (arr[2] > 0 && arr[0] > arr[1] && arr[1] > arr[2]) return -1;
 	if (arr[2] < 0 && arr[0] < arr[1] && arr[1] < arr[2]) return true;
@@ -100,7 +113,7 @@ function macd(ma1: number, ma2: number) {
 	return ma1 - ma2;
 }
 
-function macdSig(macd: { x: number; y: number }[], i: number, period: number) {
+function macdSig(macd: any, i: number, period: number) {
 	let sum = 0;
 	for (let j = 0; j < period; j++) {
 		sum += macd[i - j].y;

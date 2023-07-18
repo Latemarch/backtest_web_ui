@@ -8,10 +8,6 @@ export default function ResultChartContainer() {
 		candleQuery: { data: candleObj },
 	} = useCandleData({ lte: 1, id: 1 });
 	if (!candleObj) return;
-	const candles: historyKlineData = candleObj.reduce(
-		(acc: historyKlineData, cur: historyKline) => [...acc, ...cur.data],
-		[]
-	);
 	return (
 		<div>
 			<CandleChart />
