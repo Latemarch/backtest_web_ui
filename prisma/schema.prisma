@@ -24,6 +24,7 @@ model User {
 	histories				HistoryMT[]
 	historyIXIC			HistoryIXIC[]
 	historySPX			HistorySPX[]
+	UserMACD				UserMACD[]
 }
 
 //candlestick data of btcusd for 2 months 
@@ -36,6 +37,17 @@ model btcusd{
   createdAt       DateTime      @default(now())
 }
 
+model UserMACD {
+	id							Int           @id @default(autoincrement())
+	assetType				String
+	constants       Json
+	dailyReturn			Json
+	createdAt       DateTime      @default(now())
+	updateAt				DateTime      @updatedAt
+	user						User					@relation(fields: [userId], references: [id])
+	userId					Int
+	@@index([userId])
+}
 //personal history of mock trading
 model HistoryMT{
 	id              Int           @id @default(autoincrement())
