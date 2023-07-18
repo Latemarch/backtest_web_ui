@@ -19,7 +19,7 @@ const getCandles = async (
 	lte: number | undefined
 ): Promise<historyKline[]> => {
 	return axios
-		.get("/api/data", {
+		.get("/api/datas", {
 			params: {
 				gte,
 				lte,
@@ -30,5 +30,5 @@ const getCandles = async (
 
 const getCandleById = async (id: number | undefined): Promise<historyKline> => {
 	if (!id) throw new Error("id is undefined");
-	return axios.get(`/api/data/${id}`).then((res) => res.data);
+	return axios.get(`/api/datas/${id}`).then((res) => res.data);
 };
