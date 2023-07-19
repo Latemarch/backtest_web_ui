@@ -17,6 +17,8 @@ export function backTestBot({
 	profitCut,
 	lossCut,
 }: Props) {
+	lossCut = lossCut / 100;
+	profitCut = profitCut / 100;
 	const result: MACDResult = {
 		ma1: [],
 		ma2: [],
@@ -38,11 +40,13 @@ export function backTestBot({
 	let count = 0;
 	let openPrice = candles[0][4];
 	let dailyProfit = 0;
+	console.log(candles.length);
 	for (let i = ma2, k = 0; i < candles.length; i++, k++) {
 		//indicators
-		if (i % 1440 === 0) {
+		if ((i + 1) % 1439 === 0) {
+			console.log("index", i, candles.length);
 			const dailyReturn = {
-				id: Math.floor(i / 1440),
+				id: Math.floor(i / 1439),
 				variation: (openPrice - candles[i][4]) / candles[i][4],
 				dailyProfit,
 			};
@@ -76,17 +80,30 @@ export function backTestBot({
 			let entryPrice = result.long[result.long.length - 1].y;
 			let price = candles[i][4];
 			let profit = 1 - entryPrice / price;
+			let cummition = 0.002;
+
+			//Sell position
 			if (profit > profitCut || profit < lossCut || count > profitCount) {
+				if (profit > profitCut) profit = profitCut;
+				else if (profit < lossCut) cummition = 0.005;
+				else if (count > profitCount) profit -= 0.0005;
+
 				result.longSell.push({ x, y: candles[i][2] + 100 });
 				wallet.longPosition = false;
+
 				count = 0;
+				dailyProfit += profit - cummition;
 			}
+
+			//Check MACD
 			if (
 				result.macd[result.macd.length - 1].y >
 				result.macd[result.macd.length - 2].y
 			) {
 				count = count + 1;
 			}
+
+			//Set Position
 		} else if (wallet.long) {
 			result.long.push({ x, y: candles[i][3] - 100 });
 			wallet.longPosition = true;

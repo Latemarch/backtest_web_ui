@@ -1,14 +1,14 @@
 type Props = {
-	type: string;
+	name: string;
 	placeholder?: string;
 	register: any;
 };
-export default function InputConstant({ type, placeholder, register }: Props) {
+export default function InputConstant({ name, placeholder, register }: Props) {
 	return (
 		<div className="p-1">
+			{name}
 			<input
-				className="p-1 border rounded-md border-gray-300 w-1/2"
-				type={type}
+				className="p-1 border rounded-md border-gray-300 w-full"
 				{...register}
 				placeholder={placeholder}
 			/>

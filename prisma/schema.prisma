@@ -21,10 +21,26 @@ model User {
 	balance 				Float					@default(100)
   totalStar       Int           @default(0)
   createdAt       DateTime      @default(now())
-	histories				HistoryMT[]
-	historyIXIC			HistoryIXIC[]
-	historySPX			HistorySPX[]
-	BTResults				BTResult[]
+	UserBTResults				UserBTResult[]
+}
+model BTResult{
+	id							Int           @id @default(autoincrement())
+	asset   				String
+	strategy				String
+	constants       String
+	dailyReturn			Json
+	createdAt       DateTime      @default(now())
+	updateAt				DateTime      @updatedAt
+	userBTResults   UserBTResult[]
+}
+model UserBTResult {
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  bTResult  BTResult @relation(fields: [bTResultId], references: [id])
+  bTResultId Int
+  @@id([userId, bTResultId])
+  @@index([bTResultId])
+  @@index([userId])
 }
 
 //candlestick data of btcusd for 2 months 
@@ -37,71 +53,5 @@ model btcusd{
   createdAt       DateTime      @default(now())
 }
 
-model BTResult{
-	id							Int           @id @default(autoincrement())
-	asset   				String
-	strategy				String
-	constants       String
-	dailyReturn			Json
-	createdAt       DateTime      @default(now())
-	updateAt				DateTime      @updatedAt
-	user						User					@relation(fields: [email], references: [email])
-	email						String
-	@@index([email])
-}
+
 //personal history of mock trading
-model HistoryMT{
-	id              Int           @id @default(autoincrement())
-	name						String
-	data 						Json
-	timeOpen				String				@unique
-	timeClose		  	String				@unique
-	createdAt       DateTime      @default(now())
-	user						User					@relation(fields: [userId], references: [id])
-	userId					Int
-	@@index([userId])
-}
-
-//personal history of votes for IXIC (NASDAQ)
-model	HistoryIXIC{
-	id              Int           @id @default(autoincrement())
-	data 						Json
-	user						User					@relation(fields: [userId], references: [id])
-	userId					Int
-	@@index([userId])
-} 
-model	HistorySPX{
-	id              Int           @id @default(autoincrement())
-	data 						Json
-	user						User					@relation(fields: [userId], references: [id])
-	userId					Int
-	@@index([userId])
-} 
-
-//Daily votes for IXIC (NASDAQ)
-model VoteIXIC{
-	id              Int           @id @default(autoincrement())
-	data						Json
-	updatedAt       DateTime      @updatedAt
-}
-
-//Daily votes for SPX (S&P 500)
-model VoteSPX{
-	id              Int           @id @default(autoincrement())
-	data						Json
-	updatedAt       DateTime      @updatedAt
-}
-
-//Vote history for IXIC (NASDAQ)
-model VoteHistoryIXIC{
-	id              Int           @id @default(autoincrement())
-	data						Json
-	updatedAt       DateTime      @updatedAt
-}
-
-//Vote history for SPX (S&P 500)
-model VoteHistorySPX{
-	id              Int           @id @default(autoincrement())
-	data						Json
-	updatedAt       DateTime      @updatedAt
-}

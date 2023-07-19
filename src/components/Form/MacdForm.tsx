@@ -1,54 +1,76 @@
 "use client";
 import { useForm } from "react-hook-form";
 import InputConstant from "./InputConstant";
+import { backTestBot } from "@/service/client/strategy";
+import { getBTResult } from "@/service/client/fetchFtns";
 
-export default function MacdForm() {
+type SubmitData = {
+	ma1: number;
+	ma2: number;
+	macd: number;
+	profitCount: number;
+	profitCut: number;
+	lossCut: number;
+};
+export default function MacdForm({ candles }: { candles: historyKlineData }) {
 	const { register, handleSubmit } = useForm();
 
-	const onSubmit = (data: { [key: string]: string }) => {
-		console.log(data);
-		const constants = Object.values(data)
-			.reduce((acc: string, cur: string) => {
-				return acc + cur + ",";
-			}, "")
-			.slice(0, -1);
-		console.log(constants);
-		// const indicator = backTestBot(data);
+	const onSubmit = async (data: any) => {
+		const constants = stringfyWithComma(data);
+		const res = await getBTResult({
+			asset: "btcusd",
+			strategy: "macd",
+			constants,
+		});
+		if (res.ok) return res;
+		const result = backTestBot({ ...data, candles });
+		console.log(result);
+
+		console.log("testing done", result);
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form className="flex flex-col w-1/2" onSubmit={handleSubmit(onSubmit)}>
 			<InputConstant
-				type="number"
-				placeholder="Length of MA1"
+				name="Moving Average 1"
+				placeholder="12"
 				register={register("ma1")}
 			/>
 			<InputConstant
-				type="number"
-				placeholder="Length of MA2"
+				name="Moving Average 2"
+				placeholder="26"
 				register={register("ma2")}
 			/>
 			<InputConstant
-				type="number"
-				placeholder="Length of MACD"
+				name="Length of MACD signal"
+				placeholder="9"
 				register={register("macd")}
 			/>
 			<InputConstant
-				type="number"
-				placeholder="MACD count for profit cut "
+				name="MACD signal bar count for profit cut"
+				placeholder="9"
 				register={register("profitCount")}
 			/>
 			<InputConstant
-				type="number"
-				placeholder="Profit cut"
+				name="Profit cut (%)"
+				placeholder="1"
 				register={register("profitCut")}
 			/>
+
 			<InputConstant
-				type="number"
-				placeholder="Loss cut"
+				name="Loss cut (%)"
+				placeholder="0.8"
 				register={register("lossCut")}
 			/>
 			<button type="submit">Submitt</button>
 		</form>
 	);
+}
+
+function stringfyWithComma(data: any): string {
+	return Object.values(data as SubmitData)
+		.reduce((acc, cur) => {
+			return acc + cur + ",";
+		}, "")
+		.slice(0, -1);
 }

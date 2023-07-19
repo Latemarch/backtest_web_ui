@@ -2,13 +2,15 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Header() {
-	const session = useSession();
-	console.log(session);
+	const { data } = useSession();
 	return (
-		<div className="h-16 w-full drop-shadow-sm gap-4">
+		<div className="flex h-16 w-full drop-shadow-sm gap-4 justify-between itmes-center">
 			BackTest
-			<button onClick={() => signIn()}>signIn</button>
-			<button onClick={() => signOut()}>signOut</button>
+			{data ? (
+				<button onClick={() => signOut()}>signOut</button>
+			) : (
+				<button onClick={() => signIn()}>signIn</button>
+			)}
 		</div>
 	);
 }

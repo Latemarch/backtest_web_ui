@@ -1,4 +1,4 @@
-import { getCandles } from "@/service/client/fetchFtns";
+import { getCandles } from "@/service/server/fetchFtns";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
