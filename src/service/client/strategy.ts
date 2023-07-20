@@ -1,3 +1,13 @@
+import { MACDResult } from "@/types/backTest";
+import {
+	convertToUploadResult,
+	getAverage,
+	getFluctuation,
+	ma,
+	macdSig,
+	tradeWithMacd,
+} from "./backTestUtils";
+
 type Props = {
 	candles: historyKlineData;
 	ma1: number;
@@ -29,7 +39,7 @@ export function backTestBot({
 		longSell: [],
 		short: [],
 		shortSell: [],
-		dailyReturn: [],
+		dailyResult: [],
 	};
 	const wallet = {
 		long: false,
@@ -40,21 +50,26 @@ export function backTestBot({
 	let count = 0;
 	let openPrice = candles[0][4];
 	let dailyProfit = 0;
+	let profits = [];
 	console.log(candles.length);
 	for (let i = ma2, k = 0; i < candles.length; i++, k++) {
-		//indicators
+		//Save daily return
 		if ((i + 1) % 1439 === 0) {
-			console.log("index", i, candles.length);
+			const id = Math.floor(i / 1439);
 			const dailyReturn = {
-				id: Math.floor(i / 1439),
+				id,
 				variation: (openPrice - candles[i][4]) / candles[i][4],
 				dailyProfit,
+				dailyProfitAverage: getAverage(profits),
+				dailyFluctuation: getFluctuation(profits),
 			};
-			result.dailyReturn.push(dailyReturn);
-			console.log(dailyReturn);
+			result.dailyResult.push(dailyReturn);
 			openPrice = candles[i][4];
 			dailyProfit = 0;
+			profits = [];
 		}
+
+		//indicators
 		const x = i;
 		result.ma1.push({ x, y: ma(candles, i, ma1) });
 		result.ma2.push({ x, y: ma(candles, i, ma2) });
@@ -74,7 +89,7 @@ export function backTestBot({
 		//indicators
 
 		//trade
-		if (k < ma2 + 10) continue;
+		if (k < Number(ma2) + 10) continue;
 		wallet.long = tradeWithMacd(result.macd);
 		if (wallet.longPosition) {
 			let entryPrice = result.long[result.long.length - 1].y;
@@ -93,6 +108,7 @@ export function backTestBot({
 
 				count = 0;
 				dailyProfit += profit - cummition;
+				profits.push(profit - cummition);
 			}
 
 			//Check MACD
@@ -109,31 +125,8 @@ export function backTestBot({
 			wallet.longPosition = true;
 		}
 	}
+
+	const uploadResult = convertToUploadResult(result.dailyResult);
+	result.uploadResult = uploadResult;
 	return result;
-}
-
-function tradeWithMacd(macd: { [key: string]: number }[]) {
-	const arr = macd.slice(-3).map((obj) => obj.y);
-	// if (arr[2] > 0 && arr[0] > arr[1] && arr[1] > arr[2]) return -1;
-	if (arr[2] < 0 && arr[0] < arr[1] && arr[1] < arr[2]) return true;
-	return false;
-}
-
-function ma(candles: historyKlineData, i: number, period: number) {
-	let sum = 0;
-	for (let j = 0; j < period; j++) {
-		sum += candles[i - j][4];
-	}
-	return Number((sum / period).toFixed(2));
-}
-function macd(ma1: number, ma2: number) {
-	return ma1 - ma2;
-}
-
-function macdSig(macd: any, i: number, period: number) {
-	let sum = 0;
-	for (let j = 0; j < period; j++) {
-		sum += macd[i - j].y;
-	}
-	return Number((sum / period).toFixed(2));
 }

@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import InputConstant from "./InputConstant";
 import { backTestBot } from "@/service/client/strategy";
-import { getBTResult } from "@/service/client/fetchFtns";
+import { getBTResult, postResult } from "@/service/client/fetchFtns";
 
 type SubmitData = {
 	ma1: number;
@@ -22,11 +22,22 @@ export default function MacdForm({ candles }: { candles: historyKlineData }) {
 			strategy: "macd",
 			constants,
 		});
-		if (res.ok) return res;
-		const result = backTestBot({ ...data, candles });
-		console.log(result);
 
-		console.log("testing done", result);
+		if (res.ok) {
+			console.log("already exist on server", constants);
+			console.log(res);
+			return res;
+		}
+		const result = backTestBot({ ...data, candles });
+
+		if (!result.uploadResult) return;
+		const postRes = await postResult({
+			asset: "btcusd",
+			strategy: "macd",
+			constants,
+			result: result.uploadResult,
+		});
+		console.log("postRes", postRes);
 	};
 
 	return (

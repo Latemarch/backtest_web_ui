@@ -1,13 +1,21 @@
 import client from "@/service/client/client";
-import withSession from "@/service/server/withSession";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-type Props = {
+export type UploadDailyResult = {
+	fluctuation: number[];
+	profitAverage: number[];
+	dailyReturn: number[];
+};
+export type ResultProps = {
 	asset: string;
 	strategy: string;
 	constants: string;
-	dailyReturn: string;
+	result: UploadDailyResult;
+};
+type QueryCondition = {
+	asset?: string;
+	strategy?: string;
+	constants?: string;
 };
 
 export async function GET(req: Request, res: Response) {
@@ -15,30 +23,39 @@ export async function GET(req: Request, res: Response) {
 	const asset = searchParams.get("asset");
 	const strategy = searchParams.get("strategy");
 	const constants = searchParams.get("constants");
-	console.log(asset, strategy, constants);
 
-	if (!asset || !strategy || !constants)
-		return NextResponse.json({ ok: false });
+	// if (!asset || !strategy || !constants)
+	// 	return NextResponse.json({ ok: false });
 
-	const data = await client.bTResult.findFirst({
-		where: {
-			asset,
-			strategy,
-			constants,
-		},
+	let queryCondition: QueryCondition = {};
+	if (asset) queryCondition.asset = asset;
+	if (strategy) queryCondition.strategy = strategy;
+	if (constants) queryCondition.constants = constants;
+
+	const data = await client.bTResult.findMany({
+		where: queryCondition,
 	});
-	console.log(data);
-	if (!data) return NextResponse.json({ ok: false });
+	if (data.length === 0) return NextResponse.json({ ok: false });
 	return NextResponse.json({ ok: true, data });
 }
 
 export async function POST(req: Request) {
-	const { asset, strategy, constants, dailyReturn }: Props = await req.json();
+	console.log("post start");
+
+	const request = await req.json();
+	const body = await JSON.parse(request.body);
+	const {
+		asset,
+		strategy,
+		constants,
+		result: { fluctuation, profitAverage, dailyReturn },
+	} = body;
 	const data = await client.bTResult.findFirst({
 		where: { asset, strategy, constants },
 	});
 
 	if (data) {
+		console.log("already exsits");
 		return NextResponse.json({ ok: false, data });
 	}
 
@@ -47,7 +64,9 @@ export async function POST(req: Request) {
 			asset,
 			strategy,
 			constants,
-			dailyReturn: JSON.parse(dailyReturn),
+			dailyReturn,
+			profitAverage,
+			fluctuation,
 		},
 	});
 	return NextResponse.json({ ok: true, data: result });

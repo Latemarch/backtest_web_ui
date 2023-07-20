@@ -29,6 +29,8 @@ model BTResult{
 	strategy				String
 	constants       String
 	dailyReturn			Json
+	profitAverage   Json
+	fluctuation 		Json
 	createdAt       DateTime      @default(now())
 	updateAt				DateTime      @updatedAt
 	userBTResults   UserBTResult[]
@@ -54,4 +56,3 @@ model btcusd{
 }
 
 
-//personal history of mock trading

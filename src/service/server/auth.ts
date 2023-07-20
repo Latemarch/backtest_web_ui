@@ -10,7 +10,6 @@ export const authOptions: NextAuthOptions = {
 	],
 	callbacks: {
 		async signIn({ user }) {
-			console.log("user", user);
 			return true;
 		},
 		async session({ session, token }) {
