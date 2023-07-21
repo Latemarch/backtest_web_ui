@@ -3,18 +3,16 @@ import ConstantTable from "@/components/MACD/ConstantTable";
 import ProfitDetail from "@/components/MACD/ProfitDetail";
 
 const domain = process.env.NEXT_PUBLIC_API_URL;
-export async function generateStaticParams() {
-	const BTResults = await fetch(`${domain}/api/results`)
-		.then((res) => res.json())
-		.then((json) => {
-			return json.data;
-		});
-	console.log(BTResults[0].id);
-	console.log("page id");
-	return BTResults.map((result: any) => ({
-		id: result.id.toString(),
-	}));
-}
+// export async function generateStaticParams() {
+// 	const BTResults = await fetch(`${domain}/api/results`)
+// 		.then((res) => res.json())
+// 		.then((json) => {
+// 			return json.data;
+// 		});
+// 	return BTResults.map((result: any) => ({
+// 		id: result.id.toString(),
+// 	}));
+// }
 
 export async function generateMetadata({
 	params: { id },
