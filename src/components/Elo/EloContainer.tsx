@@ -40,7 +40,7 @@ export default function EloContainer({ asset, strategy, constants }: BTparams) {
 			>
 				click
 			</button>
-			{playersWithElo && <EloTable playersWithElo={playersWithElo} />}
+			{playersWithElo && <EloTable />}
 		</div>
 	);
 }

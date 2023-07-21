@@ -1,6 +1,25 @@
+import client from "@/service/client/client";
+import { Player, calculateElo } from "@/service/client/utils";
 import Link from "next/link";
 
-export default function EloTable({ playersWithElo }: any) {
+export const revalidate = 60 * 60 * 24;
+export default async function EloTable() {
+	const BTResult = await client.bTResult.findMany();
+	const players: Player[] = BTResult.map((obj: any) => ({
+		id: obj.id,
+		score: obj.fluctuation.map(
+			(f: number, i: number) => obj.dailyReturn[i] / f
+		),
+		elo: 1000,
+	}));
+	const result = calculateElo(players);
+	const playersWithElo = result
+		.sort((a, b) => b.elo - a.elo)
+		.slice(0, 20)
+		.map((obj: any) => ({
+			...obj,
+			...BTResult.find((bt: any) => bt.id === obj.id),
+		}));
 	return (
 		<table className="table-auto w-full border border-zinc-400 drop-shadow-sm">
 			<thead className="border-b-2 border-zinc-400 text-start">
@@ -15,7 +34,7 @@ export default function EloTable({ playersWithElo }: any) {
 			</thead>
 			<tbody>
 				{playersWithElo &&
-					playersWithElo.slice(0, 20).map((obj: any, idx: number) => (
+					playersWithElo.map((obj: any, idx: number) => (
 						<tr
 							key={obj.id}
 							className="border-b border-zinc-400 h-12 text-center cursor-pointer hover:bg-zinc-100"
