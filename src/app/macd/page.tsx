@@ -1,7 +1,8 @@
 import { getLocalCandles } from "@/service/server/fetchFtns";
 import { combineCandles } from "@/service/client/utils";
 import Abstract from "@/components/Abstract";
-import EloChartContainer from "@/components/Elo/EloChartContainer";
+import EloContainer from "@/components/Elo/EloContainer";
+import EloTable from "@/components/Elo/EloTable";
 
 export default async function page() {
 	const result = await getLocalCandles(0, 61);
@@ -13,7 +14,7 @@ export default async function page() {
 				<Abstract />
 				{/* <MacdForm candles={candles} /> */}
 			</div>
-			<EloChartContainer asset="btcusd" strategy="macd" />
+			<EloContainer asset="btcusd" strategy="macd" />
 		</div>
 	);
 }

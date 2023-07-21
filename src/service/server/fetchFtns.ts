@@ -33,3 +33,18 @@ export const getLocalCandles = async (
 	}
 	return result;
 };
+
+export const updateElo = async (
+	data: historyKlineData[],
+	asset: string,
+	strategy: string
+): Promise<void> => {
+	const filePath = path.join(
+		process.cwd(),
+		"public",
+		"datas",
+		`${asset}-${strategy}.json`
+	);
+	const dataString = JSON.stringify(data);
+	fs.writeFileSync(filePath, dataString, "utf8");
+};
