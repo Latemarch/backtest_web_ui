@@ -1,5 +1,3 @@
-import { BTResult } from "@prisma/client";
-
 export function combineCandles(
 	candleArr: historyKlineData[]
 ): historyKlineData {
