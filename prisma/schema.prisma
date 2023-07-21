@@ -45,6 +45,14 @@ model UserBTResult {
   @@index([userId])
 }
 
+model Elo {
+	id              Int           @id @default(autoincrement())
+	asset 					String
+	strategy				String
+	eloList					Json
+	createdAt       DateTime      @default(now())
+	updatedAt       DateTime      @updatedAt
+}
 //candlestick data of btcusd for 2 months 
 model btcusd{
 	id              Int           @id @default(autoincrement())

@@ -4,11 +4,7 @@ import { Player, calculateElo } from "@/service/client/utils";
 import { useState } from "react";
 import EloTable from "./EloTable";
 
-export default function EloChartContainer({
-	asset,
-	strategy,
-	constants,
-}: BTparams) {
+export default function EloContainer({ asset, strategy, constants }: BTparams) {
 	const {
 		resultQuery: { data: res },
 	} = useBTResult({
@@ -26,8 +22,6 @@ export default function EloChartContainer({
 			elo: 1000,
 		}));
 		const result = calculateElo(players);
-		console.log(result);
-		console.log(BTResult[0]);
 		setPlayersWithElo(
 			result
 				.sort((a, b) => b.elo - a.elo)
@@ -36,7 +30,6 @@ export default function EloChartContainer({
 					...BTResult.find((bt: any) => bt.id === obj.id),
 				}))
 		);
-		console.log("withElo", playersWithElo);
 	};
 	return (
 		<div className="p-10 pb-20">

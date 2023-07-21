@@ -20,16 +20,6 @@ export async function fetchTradeHistory() {
 	return response.data.result;
 }
 
-export const getUserBalance = async () => {
-	const res = await fetch(`${domain}/api/user/balance`, { cache: "no-store" });
-	if (!res.ok) {
-		const message = await res.text();
-		console.error("API error:", message);
-	}
-	const data = await res.json();
-	return data.data.balance;
-};
-
 export const getLocalCandles = async (
 	gte: number | undefined = 0,
 	lte: number | undefined = 60
@@ -42,4 +32,19 @@ export const getLocalCandles = async (
 		result.push(fileContents);
 	}
 	return result;
+};
+
+export const updateElo = async (
+	data: historyKlineData[],
+	asset: string,
+	strategy: string
+): Promise<void> => {
+	const filePath = path.join(
+		process.cwd(),
+		"public",
+		"datas",
+		`${asset}-${strategy}.json`
+	);
+	const dataString = JSON.stringify(data);
+	fs.writeFileSync(filePath, dataString, "utf8");
 };
