@@ -45,3 +45,24 @@ export function calculateElo(players: Player[]): Player[] {
 
 	return players;
 }
+
+export function createHistogram(inputArr: number[]): number[] {
+	// 입력 배열의 모든 원소에 100을 곱함
+	const scaledInput = inputArr.map((val) => val * 100);
+
+	// -4부터 4까지 0.1 단위로 배열 생성
+	const bins = Array.from({ length: 51 }, (_, i) => -5 + i * 0.2);
+
+	// 각 구간에 해당하는 값을 필터링하여 카운트한 배열 생성
+	const histogram = bins.map((bin, idx) => {
+		if (idx === bins.length - 1) {
+			// 마지막 bin의 경우 bin 값보다 큰 값들만 포함
+			return scaledInput.filter((val) => val >= bin).length;
+		} else {
+			const nextBin = bins[idx + 1];
+			return scaledInput.filter((val) => val >= bin && val < nextBin).length;
+		}
+	});
+
+	return histogram;
+}

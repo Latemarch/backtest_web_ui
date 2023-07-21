@@ -21,3 +21,18 @@ export async function postResult(Props: ResultProps) {
 	});
 	return res;
 }
+export const getCandlesClient = async (
+	gte: number | undefined,
+	lte: number | undefined
+): Promise<historyKlineData[]> => {
+	const data: historyKline[] = await axios
+		.get("http://localhost:3000/api/datas/", {
+			params: {
+				gte,
+				lte,
+			},
+		})
+		.then((res) => res.data);
+	const filteredData = data.map((obj) => obj.data);
+	return filteredData;
+};

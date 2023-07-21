@@ -1,4 +1,3 @@
-import MacdForm from "@/components/Form/MacdForm";
 import { getLocalCandles } from "@/service/server/fetchFtns";
 import { combineCandles } from "@/service/client/utils";
 import Abstract from "@/components/Abstract";
@@ -10,9 +9,9 @@ export default async function page() {
 
 	return (
 		<div className="flex flex-col w-full">
-			<div className="flex">
+			<div className="flex flex-col w-full">
 				<Abstract />
-				<MacdForm candles={candles} />
+				{/* <MacdForm candles={candles} /> */}
 			</div>
 			<EloChartContainer asset="btcusd" strategy="macd" />
 		</div>

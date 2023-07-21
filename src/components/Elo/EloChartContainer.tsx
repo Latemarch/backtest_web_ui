@@ -39,8 +39,8 @@ export default function EloChartContainer({
 		console.log("withElo", playersWithElo);
 	};
 	return (
-		<div>
-			EloChartContainer
+		<div className="p-10 pb-20">
+			ELO Table
 			<button
 				className="p-1 border rounded-md border-gray-300 w-full"
 				onClick={handleClick}

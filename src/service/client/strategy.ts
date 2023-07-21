@@ -51,7 +51,6 @@ export function backTestBot({
 	let openPrice = candles[0][4];
 	let dailyProfit = 0;
 	let profits = [];
-	console.log(candles.length);
 	for (let i = ma2, k = 0; i < candles.length; i++, k++) {
 		//Save daily return
 		if ((i + 1) % 1439 === 0) {

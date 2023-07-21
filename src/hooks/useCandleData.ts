@@ -1,4 +1,4 @@
-import { getCandles } from "@/service/server/fetchFtns";
+import { getCandlesClient } from "@/service/client/fetchFtns";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -9,7 +9,9 @@ type Props = {
 };
 
 export default function useCandleData({ id, gte, lte }: Props) {
-	const candleQuery = useQuery(["candleData"], () => getCandles(gte, lte));
+	const candleQuery = useQuery(["candleData"], () =>
+		getCandlesClient(gte, lte)
+	);
 
 	const getCandle = useQuery(["candleData", id], () => getCandleById(id));
 	return { candleQuery, getCandle };
