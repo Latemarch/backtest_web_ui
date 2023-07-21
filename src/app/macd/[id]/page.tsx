@@ -1,18 +1,12 @@
-import BarChart from "@/components/MACD/BarChart";
 import ConstantTable from "@/components/MACD/ConstantTable";
 import ProfitDetail from "@/components/MACD/ProfitDetail";
 import client from "@/service/client/client";
 
-const domain = process.env.NEXT_PUBLIC_API_URL;
+export const revalidate = 60 * 60 * 24;
+
 export async function generateStaticParams() {
-	// const BTResults = await fetch(`${domain}/api/results`)
-	// 	.then((res) => res.json())
-	// 	.then((json) => {
-	// 		return json.data;
-	// 	});
 	const res = await client.bTResult.findMany();
 	const BTResults = res;
-	console.log(res.length);
 
 	return BTResults.map((result: any) => ({
 		id: result.id.toString(),
