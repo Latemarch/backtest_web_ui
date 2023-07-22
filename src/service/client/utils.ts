@@ -49,7 +49,7 @@ export function createHistogram(inputArr: number[]): number[] {
 	const scaledInput = inputArr.map((val) => val * 100);
 
 	// -4부터 4까지 0.1 단위로 배열 생성
-	const bins = Array.from({ length: 51 }, (_, i) => -5 + i * 0.2);
+	const bins = Array.from({ length: 21 }, (_, i) => -0.2 + i * 0.02);
 
 	// 각 구간에 해당하는 값을 필터링하여 카운트한 배열 생성
 	const histogram = bins.map((bin, idx) => {

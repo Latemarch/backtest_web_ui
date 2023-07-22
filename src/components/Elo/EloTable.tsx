@@ -4,7 +4,13 @@ import Link from "next/link";
 
 export const revalidate = 60 * 60 * 24;
 export default async function EloTable() {
-	const BTResult = await client.bTResult.findMany();
+	const BTResult = await client.bTResult.findMany({
+		select: {
+			id: true,
+			fluctuation: true,
+			dailyReturn: true,
+		},
+	});
 	const players: Player[] = BTResult.map((obj: any) => ({
 		id: obj.id,
 		score: obj.fluctuation.map(
