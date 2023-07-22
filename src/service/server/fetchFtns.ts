@@ -34,19 +34,42 @@ export const getLocalCandles = async (
 	return result;
 };
 
-export const updateElo = async (
-	data: historyKlineData[],
-	asset: string,
-	strategy: string
-): Promise<void> => {
+export const updateEloRankToClient = async ({
+	data,
+	asset,
+	strategy,
+}: {
+	data: historyKlineData[];
+	asset: string;
+	strategy: string;
+}): Promise<void> => {
 	const filePath = path.join(
 		process.cwd(),
 		"public",
 		"datas",
+		"rank",
 		`${asset}-${strategy}.json`
 	);
 	const dataString = JSON.stringify(data);
 	fs.writeFileSync(filePath, dataString, "utf8");
+	console.log("save elo");
 };
 
-// export function updateEloRank() {}
+export const getEloRankFromClient = ({
+	asset,
+	strategy,
+}: {
+	asset: string;
+	strategy: string;
+}): Promise<number[]> => {
+	const filePath = path.join(
+		process.cwd(),
+		"public",
+		"datas",
+		"rank",
+		`${asset}-${strategy}.json`
+	);
+	const fileContents = fs.readFileSync(filePath, "utf8");
+	const eloRank = JSON.parse(fileContents);
+	return eloRank;
+};

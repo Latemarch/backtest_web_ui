@@ -1,5 +1,6 @@
 import client from "@/service/client/client";
 import { Player, calculateElo } from "@/service/client/utils";
+import { updateEloRankToClient } from "@/service/server/fetchFtns";
 import Link from "next/link";
 
 export const revalidate = 60 * 60 * 24;
@@ -26,6 +27,11 @@ export default async function EloTable() {
 			...obj,
 			...BTResult.find((bt: any) => bt.id === obj.id),
 		}));
+	updateEloRankToClient({
+		data: playersWithElo.map((el) => el.id),
+		asset: "btcusd",
+		strategy: "MACD",
+	});
 	return (
 		<table className="table-auto w-full border border-zinc-400 drop-shadow-sm">
 			<thead className="border-b-2 border-zinc-400 text-start">

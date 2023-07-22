@@ -3,16 +3,12 @@ import ConstantTable from "@/components/MACD/ConstantTable";
 import PieChart from "@/components/MACD/PieChart";
 import ProfitDetail from "@/components/MACD/ProfitDetail";
 import client from "@/service/client/client";
+import { getEloRankFromClient } from "@/service/server/fetchFtns";
 
 export const revalidate = 60 * 60 * 24;
 
 export async function generateStaticParams() {
-	const res = await client.bTResult.findMany();
-	const BTResults = res;
-
-	return BTResults.map((result: any) => ({
-		id: result.id.toString(),
-	}));
+	return await getEloRankFromClient({ asset: "btcusd", strategy: "MACD" });
 }
 
 export async function generateMetadata({
@@ -44,19 +40,32 @@ export default async function Page({
 		<div>
 			<ConstantTable constants={constants} />
 			<ProfitDetail />
-			<BarChart dataArr={data.profitAverage as number[]} />
-			<div className="flex text-justify flex-col sm:flex-row">
-				<span className="p-4 w-1/2">
-					Daily Profit Status. The days of profit and loss are represented as
-					percentages.
-				</span>
-				<div className="w-1/2">
-					<PieChart
-						data={{
-							profit,
-							loss,
-						}}
-					/>
+			<div className="text-justify sm:columns-2">
+				<div className="flex text-justify flex-col ">
+					<h2 className="text-bold text-center">1. Daily return</h2>
+					<span className="p-4 ">
+						In MACD trading, we conducted a 60-day backtest using the mentioned
+						constants and minute candles. The following chart represents the
+						average daily trading return.
+					</span>
+					<div className="">
+						<BarChart dataArr={data.profitAverage as number[]} />
+					</div>
+				</div>
+				<div className="flex text-justify flex-col ">
+					<h2 className="text-bold text-center">2. Winning percentage</h2>
+					<span className="p-4 ">
+						Daily Profit Status. The days of profit and loss are represented as
+						percentages.
+					</span>
+					<div className="">
+						<PieChart
+							data={{
+								profit,
+								loss,
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>

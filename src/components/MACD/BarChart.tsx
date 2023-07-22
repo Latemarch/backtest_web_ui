@@ -41,7 +41,7 @@ const BarChart = ({ dataArr }: { dataArr: number[] }) => {
 
 			xaxis: {
 				categories,
-				tickAmount: 10,
+				tickAmount: 5,
 				tickPlacement: "between" as const,
 				labels: {
 					rotate: 0,
