@@ -1,17 +1,18 @@
 "use client";
 
-import { createHistogram } from "@/service/client/utils";
-import React, { useState } from "react";
+import { useState } from "react";
 // import ReactApexChart from "react-apexcharts";
 import dynamic from "next/dynamic";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 	ssr: false,
 });
 
-const BarChart = ({ dataArr }: { dataArr: number[] }) => {
-	const data = createHistogram(dataArr);
-	const categories = Array.from({ length: 21 }, (_, i) => -0.2 + i * 0.02);
-
+type Props = {
+	title: string;
+	data: number[];
+	categories: number[];
+};
+const BarChart = ({ title, data, categories }: Props) => {
 	const [chartState, setChartState] = useState({
 		series: [
 			{
@@ -23,6 +24,10 @@ const BarChart = ({ dataArr }: { dataArr: number[] }) => {
 			chart: {
 				height: 350,
 				type: "bar" as const,
+			},
+			title: {
+				text: title,
+				align: "center" as const,
 			},
 			dataLabels: {
 				enabled: false,
@@ -75,7 +80,6 @@ const BarChart = ({ dataArr }: { dataArr: number[] }) => {
 
 	return (
 		<div className="p-4">
-			<div>Distribution of daily average trade returns</div>
 			<ReactApexChart
 				options={chartState.options}
 				series={chartState.series}

@@ -69,9 +69,11 @@ export default async function EloTable() {
 							<td>
 								{(
 									obj.dailyReturn.reduce(
-										(acc: number, cur: number) => acc + cur,
-										0
-									) * 100
+										(acc: number, cur: number) => acc * (1 + cur),
+										1
+									) *
+										100 -
+									100
 								).toFixed(2)}
 								%
 							</td>

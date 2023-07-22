@@ -6,15 +6,20 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 type Props = {
+	title: string;
 	data: { profit: number; loss: number };
 };
 
-const PieChart = ({ data: { profit, loss } }: Props) => {
+const PieChart = ({ title, data: { profit, loss } }: Props) => {
 	const [chartState, setChartState] = useState({
 		series: [profit, loss],
 		options: {
 			chart: {
 				type: "donut" as const,
+			},
+			title: {
+				text: title,
+				align: "left" as const,
 			},
 			labels: ["Profit", "Loss"],
 			colors: ["#26A69A", "#EF5350"],
@@ -37,7 +42,6 @@ const PieChart = ({ data: { profit, loss } }: Props) => {
 
 	return (
 		<div className="p-4">
-			<p>Ratio of Daily Profits and Losses</p>
 			<ReactApexChart
 				options={chartState.options}
 				series={chartState.series}
