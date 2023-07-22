@@ -5,12 +5,12 @@ import ReactApexChart from "react-apexcharts";
 
 const BarChart = ({ dataArr }: { dataArr: number[] }) => {
 	const data = createHistogram(dataArr);
-	const categories = Array.from({ length: 51 }, (_, i) => -5 + i * 0.2);
+	const categories = Array.from({ length: 21 }, (_, i) => -0.2 + i * 0.02);
 
 	const [chartState, setChartState] = useState({
 		series: [
 			{
-				name: "daily return",
+				name: "Average profit a day",
 				data,
 			},
 		],
@@ -25,6 +25,14 @@ const BarChart = ({ dataArr }: { dataArr: number[] }) => {
 			stroke: {
 				curve: "smooth" as const,
 			},
+			tooltip: {
+				x: {
+					formatter: function (value: number) {
+						const val = value;
+						return `${val.toFixed(2)}%~${(val + 0.02).toFixed(2)}%`;
+					},
+				},
+			},
 
 			xaxis: {
 				categories,
@@ -34,7 +42,7 @@ const BarChart = ({ dataArr }: { dataArr: number[] }) => {
 					rotate: 0,
 					formatter: (value: string, timestamp?: number) => {
 						const val = parseFloat(value);
-						return `${val.toFixed(1)}%`;
+						return `${val.toFixed(2)}%`;
 					},
 				},
 			},
@@ -45,13 +53,24 @@ const BarChart = ({ dataArr }: { dataArr: number[] }) => {
 			plotOptions: {
 				bar: {
 					columnWidth: "80%",
+					distributied: true,
+					colors: {
+						ranges: [
+							{
+								from: -1,
+								to: 50,
+								color: "#26A69A",
+							},
+						],
+					},
 				},
 			},
 		},
 	});
 
 	return (
-		<div id="chart">
+		<div className="p-4">
+			<div>Distribution of daily average trade returns</div>
 			<ReactApexChart
 				options={chartState.options}
 				series={chartState.series}

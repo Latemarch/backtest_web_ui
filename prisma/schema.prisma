@@ -45,11 +45,11 @@ model UserBTResult {
   @@index([userId])
 }
 
-model Elo {
+model EloRank {
 	id              Int           @id @default(autoincrement())
 	asset 					String
 	strategy				String
-	eloList					Json
+	rank  					Json
 	createdAt       DateTime      @default(now())
 	updatedAt       DateTime      @updatedAt
 }
