@@ -44,12 +44,17 @@ export function calculateElo(players: Player[]): Player[] {
 	return players;
 }
 
-export function createHistogram(inputArr: number[]): number[] {
+export function createHistogram(
+	inputArr: number[],
+	bins: number[]
+): {
+	[key: string]: number[];
+} {
 	// 입력 배열의 모든 원소에 100을 곱함
 	const scaledInput = inputArr.map((val) => val * 100);
 
 	// -4부터 4까지 0.1 단위로 배열 생성
-	const bins = Array.from({ length: 21 }, (_, i) => -0.2 + i * 0.02);
+	// const bins = Array.from({ length: 21 }, (_, i) => -0.2 + i * 0.02);
 
 	// 각 구간에 해당하는 값을 필터링하여 카운트한 배열 생성
 	const histogram = bins.map((bin, idx) => {
@@ -62,5 +67,5 @@ export function createHistogram(inputArr: number[]): number[] {
 		}
 	});
 
-	return histogram;
+	return { histogram, bins };
 }

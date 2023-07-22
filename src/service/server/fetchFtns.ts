@@ -73,3 +73,16 @@ export const getEloRankFromClient = ({
 	const eloRank = JSON.parse(fileContents);
 	return eloRank;
 };
+
+export const getTextFromClient = (name: string): Promise<number[]> => {
+	const filePath = path.join(
+		process.cwd(),
+		"public",
+		"datas",
+		"text",
+		"text.json"
+	);
+	const fileContents = fs.readFileSync(filePath, "utf8");
+	const text = JSON.parse(fileContents);
+	return text[name];
+};
