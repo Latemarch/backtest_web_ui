@@ -1,4 +1,4 @@
-export default function Abstract() {
+export default function AbstractMACD() {
 	return (
 		<div className="flex flex-col text-justify items-center gap-2 p-4 md:px-20 ">
 			<h2>Abstract</h2>
