@@ -1,7 +1,12 @@
 "use client";
+
 import { createHistogram } from "@/service/client/utils";
 import React, { useState } from "react";
-import ReactApexChart from "react-apexcharts";
+// import ReactApexChart from "react-apexcharts";
+import dynamic from "next/dynamic";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+	ssr: false,
+});
 
 const BarChart = ({ dataArr }: { dataArr: number[] }) => {
 	const data = createHistogram(dataArr);

@@ -1,10 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import ReactApexChart from "react-apexcharts";
+import dynamic from "next/dynamic";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+	ssr: false,
+});
 
 type Props = {
 	data: { profit: number; loss: number };
 };
+
 const PieChart = ({ data: { profit, loss } }: Props) => {
 	const [chartState, setChartState] = useState({
 		series: [profit, loss],

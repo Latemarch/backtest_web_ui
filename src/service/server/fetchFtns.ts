@@ -48,3 +48,5 @@ export const updateElo = async (
 	const dataString = JSON.stringify(data);
 	fs.writeFileSync(filePath, dataString, "utf8");
 };
+
+// export function updateEloRank() {}
