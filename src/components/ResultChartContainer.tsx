@@ -1,7 +1,6 @@
 "use client";
 import useCandleData from "@/hooks/useCandleData";
 import CandleChart from "./CandleChart";
-import { backTestBot } from "@/service/client/strategy";
 
 export default function ResultChartContainer() {
 	const {

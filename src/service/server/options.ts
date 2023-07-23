@@ -11,7 +11,7 @@ export const chartOptions: ApexOptions = {
 		},
 		zoom: {
 			enabled: true,
-			type: "xy",
+			type: "x",
 		},
 		// brush: {
 		// 	enabled: true,
@@ -22,13 +22,13 @@ export const chartOptions: ApexOptions = {
 		type: "numeric",
 		tickAmount: 4,
 	},
-	stroke: {
-		curve: "smooth",
-		width: 2,
-	},
 	yaxis: {
 		show: false,
 		tickAmount: 5,
+	},
+	stroke: {
+		curve: "smooth",
+		width: 2,
 	},
 
 	legend: {
