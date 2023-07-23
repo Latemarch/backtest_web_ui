@@ -1,5 +1,6 @@
 import FramerWrapper from "./FramerWrapper";
 import TradeHistory from "@/components/TradeHistory";
+import ChartContainer from "@/components/ChartContainer";
 
 export async function generateMetadata() {
 	return {
@@ -13,6 +14,7 @@ export default function Home() {
 			main
 			{/* <PriceTracker /> */}
 			{/* <ResultChartContainer /> */}
+			<ChartContainer />
 			<TradeHistory />
 		</FramerWrapper>
 	);
