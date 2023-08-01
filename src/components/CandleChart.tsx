@@ -39,7 +39,7 @@ export default function CandleChart({ data, indicators }: any) {
 		]);
 	}, []);
 	return (
-		<div className="bg-white p-4 px-2 my-2 rounded-xl">
+		<>
 			<Chart
 				options={{
 					...optionsCandle, //
@@ -156,6 +156,6 @@ export default function CandleChart({ data, indicators }: any) {
 				]}
 				height={200}
 			/>
-		</div>
+		</>
 	);
 }

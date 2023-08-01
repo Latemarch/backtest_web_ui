@@ -40,8 +40,6 @@ export async function GET(req: Request, res: Response) {
 }
 
 export async function POST(req: Request) {
-	console.log("post start");
-
 	const request = await req.json();
 	const body = await JSON.parse(request.body);
 	const {

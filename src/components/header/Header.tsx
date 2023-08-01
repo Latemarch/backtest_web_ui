@@ -4,6 +4,7 @@ import Link from "next/link";
 
 export default function Header() {
 	const { data } = useSession();
+	console.log(data);
 	return (
 		<div className="flex h-16 w-full drop-shadow-sm gap-4 justify-between itmes-center items-center p-4">
 			<Link href="/">
@@ -13,8 +14,11 @@ export default function Header() {
 				<div>MACD</div>
 			</Link>
 			{data ? (
-				<button onClick={() => signOut()}>signOut</button>
+				<div className="h-10 w-10 rounded-full overflow-hidden">
+					<img src={data.user.image} alt="profileImage" />
+				</div>
 			) : (
+				// <button onClick={() => signOut()}>signOut</button>
 				<button onClick={() => signIn()}>signIn</button>
 			)}
 		</div>
