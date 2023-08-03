@@ -15,7 +15,10 @@ export default function Header() {
 			</Link>
 			{data ? (
 				<div className="h-10 w-10 rounded-full overflow-hidden">
-					<img src={data.user.image} alt="profileImage" />
+					{/*
+					 eslint-disable-next-line @next/next/no-img-element
+					 */}
+					<img src={data.user?.image as string} alt="profileImage" />
 				</div>
 			) : (
 				// <button onClick={() => signOut()}>signOut</button>
