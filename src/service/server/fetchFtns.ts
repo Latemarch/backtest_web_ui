@@ -34,6 +34,17 @@ export const getLocalCandles = async (
 	return result;
 };
 
+export const getLocalCandle = async (fileNumber: string) => {
+	const filePath = path.join(
+		process.cwd(),
+		"public",
+		"datas",
+		`${fileNumber}.json`
+	);
+	const fileContents = JSON.parse(fs.readFileSync(filePath, "utf8"));
+	return fileContents;
+};
+
 export const updateEloRankToClient = async ({
 	data,
 	asset,

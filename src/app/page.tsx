@@ -11,11 +11,7 @@ export async function generateMetadata() {
 export default function Home() {
 	return (
 		<FramerWrapper>
-			main
-			{/* <PriceTracker /> */}
-			{/* <ResultChartContainer /> */}
 			<ChartContainer />
-			<TradeHistory />
 		</FramerWrapper>
 	);
 }

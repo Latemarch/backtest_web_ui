@@ -1,4 +1,3 @@
-import Abstract from "@/components/Abstract";
 import AbstractMACD from "@/components/MACD/AbstractMACD";
 import BarChart from "@/components/MACD/BarChart";
 import ConstantTable from "@/components/MACD/ConstantTable";
@@ -77,7 +76,7 @@ export default async function Page({
 					<span className="p-4 ">
 						In MACD trading, we conducted a 60-day backtest using the mentioned
 						constants and minute candles. The following chart represents the
-						average daily trading return.
+						average daily trading return which follows normal distribution.
 					</span>
 					<div className="">
 						<BarChart
@@ -93,7 +92,8 @@ export default async function Page({
 					<span className="p-4 ">
 						In MACD trading, we conducted a 60-day backtest using the mentioned
 						constants and minute candles. The following chart represents the
-						average daily fluctuation of trading profit.
+						average daily fluctuation of trading profit which follows poisson
+						distribution.
 					</span>
 					<BarChart
 						title="Distrivution of daily average fluctuation"

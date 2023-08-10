@@ -3,7 +3,7 @@ import { ApexOptions } from "apexcharts";
 export const chartOptions: ApexOptions = {
 	chart: {
 		width: "100%",
-		background: "#fff",
+		// background: "#fff",
 		type: "candlestick",
 		id: "candles",
 		animations: {
@@ -13,10 +13,6 @@ export const chartOptions: ApexOptions = {
 			enabled: true,
 			type: "x",
 		},
-		// brush: {
-		// 	enabled: true,
-		// 	target: "macd",
-		// },
 	},
 	xaxis: {
 		type: "numeric",
@@ -44,7 +40,7 @@ export const chartBar: ApexOptions = {
 		id: "macd",
 		type: "bar",
 		height: 100,
-		background: "#fff",
+		// background: "#fff",
 		animations: {
 			enabled: false,
 		},

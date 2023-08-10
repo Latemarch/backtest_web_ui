@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthContext from "@/context/AuthContext";
 import Header from "@/components/header/Header";
-import QueryProvider from "@/service/client/QueryProvider";
 import ReduxProvider from "@/redux/ReduxProvider";
+import QueryProvider from "@/context/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
