@@ -1,6 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import signUp from "./signup";
+import enlistToPS from "./enlistToPS";
 
 export const authOptions: NextAuthOptions = {
 	providers: [
@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
 		},
 		async session({ session }) {
 			console.log("session", session);
-			signUp({ email: session.user?.email });
+			enlistToPS({ email: session.user?.email });
 			return session;
 		},
 	},

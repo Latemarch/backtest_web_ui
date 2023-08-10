@@ -1,5 +1,5 @@
 import { mapCandleData } from "@/service/client/utils";
-import { backTestBot } from "@/service/client/strategy";
+import { backTestBot } from "@/service/client/strategies/strategyMACD";
 import CandleChart from "./CandleChart";
 import { getLocalCandle } from "@/service/server/fetchFtns";
 

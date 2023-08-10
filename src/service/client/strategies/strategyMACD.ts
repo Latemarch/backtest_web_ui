@@ -6,7 +6,7 @@ import {
 	ma,
 	macdSig,
 	tradeWithMacd,
-} from "./backTestUtils";
+} from "../backTestUtils";
 
 type Props = {
 	candles: historyKlineData;

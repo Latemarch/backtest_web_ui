@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import InputConstant from "./InputConstant";
-import { backTestBot } from "@/service/client/strategy";
+import { backTestBot } from "@/service/client/strategies/strategyMACD";
 import { getBTResult, postResult } from "@/service/client/fetchFtns";
 
 type SubmitData = {

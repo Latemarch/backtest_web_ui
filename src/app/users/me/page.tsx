@@ -1,10 +1,13 @@
+import LogOut from "@/components/Me/LogOut";
 import client from "@/service/client/client";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 export default async function page() {
 	const data = await getServerSession();
 	console.log("user!!", data?.user);
-	if (!data?.user) return "no User";
+	if (!data?.user) redirect("/");
+
 	const { name, email, image } = data.user;
 	const user = await client.user.findUnique({
 		where: {
@@ -12,6 +15,12 @@ export default async function page() {
 		},
 	});
 	console.log(user);
+	if (!user) redirect("/");
 
-	return user && <div>{user.id}</div>;
+	return (
+		<div>
+			{user.id}
+			<LogOut />
+		</div>
+	);
 }

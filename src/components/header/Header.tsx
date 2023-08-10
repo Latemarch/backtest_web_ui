@@ -14,12 +14,14 @@ export default function Header() {
 				<div>MACD</div>
 			</Link>
 			{data ? (
-				<div className="h-10 w-10 rounded-full overflow-hidden">
-					{/*
+				<Link href="/users/me">
+					<div className="h-10 w-10 rounded-full overflow-hidden">
+						{/*
 					 eslint-disable-next-line @next/next/no-img-element
 					 */}
-					<img src={data.user?.image as string} alt="profileImage" />
-				</div>
+						<img src={data.user?.image as string} alt="profileImage" />
+					</div>
+				</Link>
 			) : (
 				// <button onClick={() => signOut()}>signOut</button>
 				<button onClick={() => signIn()}>signIn</button>
