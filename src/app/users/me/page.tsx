@@ -1,26 +1,29 @@
-import LogOut from "@/components/Me/LogOut";
+import UserProfile from "@/components/User/UserProfile";
 import client from "@/service/client/client";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 export default async function page() {
 	const data = await getServerSession();
-	console.log("user!!", data?.user);
-	if (!data?.user) redirect("/");
+	if (!data?.user) return "no User";
 
 	const { name, email, image } = data.user;
+	console.log("data", data);
+
 	const user = await client.user.findUnique({
 		where: {
 			email: email as string,
 		},
 	});
-	console.log(user);
-	if (!user) redirect("/");
+
+	if (!user) return "user not found";
+
+	if (!user.name) user.name = name as string;
 
 	return (
-		<div>
-			{user.id}
-			<LogOut />
-		</div>
+		user && (
+			<div>
+				<UserProfile user={{ ...user, image }} />
+			</div>
+		)
 	);
 }
